@@ -50,7 +50,7 @@ class GatewayTest extends GatewayTestCase
 
     public function testCompletePurchaseSuccess()
     {
-        $request = $this->getHttpRequest()->withQueryParams(array(
+        $request = $this->getHttpRequest()->withParsedBody(array(
             'appcode' => 'abcdefg',
             'domain' => 'test4321',
             'paydate' => '2016-03-29 04:02:21',
@@ -72,7 +72,7 @@ class GatewayTest extends GatewayTestCase
      */
     public function testCompletePurchaseInvalidSKey()
     {
-        $request = $this->getHttpRequest()->withQueryParams(array(
+        $request = $this->getHttpRequest()->withParsedBody(array(
             'appcode' => 'abcdefg',
             'domain' => 'test4321',
             'paydate' => '2016-03-29 04:02:21',
@@ -91,7 +91,7 @@ class GatewayTest extends GatewayTestCase
      */
     public function testCompletePurchaseError()
     {
-        $request = $this->getHttpRequest()->withQueryParams(array(
+        $request = $this->getHttpRequest()->withParsedBody(array(
             'appcode' => 'abcdefg',
             'domain' => 'test4321',
             'paydate' => 'I am not a date',

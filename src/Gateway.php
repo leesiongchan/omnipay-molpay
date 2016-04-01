@@ -143,21 +143,21 @@ class Gateway extends AbstractGateway
      */
     public function completePurchase(array $parameters = array())
     {
-        $queryParams = $this->httpRequest->getQueryParams();
+        $parsedBody = $this->httpRequest->getParsedBody();
 
         return $this->createRequest(
             '\League\Omnipay\MOLPay\Message\CompletePurchaseRequest',
             array_merge(
                 $parameters,
                 array(
-                    'appCode' => isset($queryParams['appcode']) ? $queryParams['appcode'] : null,
-                    'domain' => isset($queryParams['domain']) ? $queryParams['domain'] : null,
-                    'errorMessage' => isset($queryParams['error_desc']) ? $queryParams['error_desc'] : null,
-                    'nbcb' => isset($queryParams['nbcb']) ? $queryParams['nbcb'] : null,
-                    'payDate' => isset($queryParams['paydate']) ? $queryParams['paydate'] : null,
-                    'sKey' => isset($queryParams['skey']) ? $queryParams['skey'] : null,
-                    'status' => isset($queryParams['status']) ? $queryParams['status'] : null,
-                    'transactionReference' => isset($queryParams['tranID']) ? $queryParams['tranID'] : null,
+                    'appCode' => isset($parsedBody['appcode']) ? $parsedBody['appcode'] : null,
+                    'domain' => isset($parsedBody['domain']) ? $parsedBody['domain'] : null,
+                    'errorMessage' => isset($parsedBody['error_desc']) ? $parsedBody['error_desc'] : null,
+                    'nbcb' => isset($parsedBody['nbcb']) ? $parsedBody['nbcb'] : null,
+                    'payDate' => isset($parsedBody['paydate']) ? $parsedBody['paydate'] : null,
+                    'sKey' => isset($parsedBody['skey']) ? $parsedBody['skey'] : null,
+                    'status' => isset($parsedBody['status']) ? $parsedBody['status'] : null,
+                    'transactionReference' => isset($parsedBody['tranID']) ? $parsedBody['tranID'] : null,
                 )
             )
         );
