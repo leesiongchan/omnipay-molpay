@@ -1,8 +1,8 @@
 <?php
 
-namespace Omnipay\MOLPay\Message;
+namespace League\Omnipay\MOLPay\Message;
 
-use Omnipay\Common\Exception\InvalidResponseException;
+use League\Omnipay\Common\Exception\InvalidResponseException;
 
 /**
  * MOLPay Purchase Request.
@@ -42,7 +42,7 @@ class CompletePurchaseRequest extends AbstractRequest
      * Set appCode.
      *
      * @param string $value
-     * 
+     *
      * @return $this
      */
     public function setAppCode($value)
@@ -64,7 +64,7 @@ class CompletePurchaseRequest extends AbstractRequest
      * Set domain.
      *
      * @param string $value
-     * 
+     *
      * @return $this
      */
     public function setDomain($value)
@@ -86,7 +86,7 @@ class CompletePurchaseRequest extends AbstractRequest
      * Set errorMessage.
      *
      * @param string $value
-     * 
+     *
      * @return $this
      */
     public function setErrorMessage($value)
@@ -108,7 +108,7 @@ class CompletePurchaseRequest extends AbstractRequest
      * Set payDate.
      *
      * @param string $value
-     * 
+     *
      * @return $this
      */
     public function setPayDate($value)
@@ -130,7 +130,7 @@ class CompletePurchaseRequest extends AbstractRequest
      * Set nbcb.
      *
      * @param string $value
-     * 
+     *
      * @return $this
      */
     public function setNBCB($value)
@@ -152,7 +152,7 @@ class CompletePurchaseRequest extends AbstractRequest
      * Set sKey.
      *
      * @param string $value
-     * 
+     *
      * @return $this
      */
     public function setSKey($value)
@@ -174,7 +174,7 @@ class CompletePurchaseRequest extends AbstractRequest
      * Set status.
      *
      * @param string $value
-     * 
+     *
      * @return $this
      */
     public function setStatus($value)
@@ -196,7 +196,7 @@ class CompletePurchaseRequest extends AbstractRequest
      * Set transactionReference.
      *
      * @param string $value
-     * 
+     *
      * @return $this
      */
     public function setTransactionReference($value)
@@ -253,7 +253,7 @@ class CompletePurchaseRequest extends AbstractRequest
     {
         $this->validate('amount', 'currency', 'domain', 'status', 'transactionId', 'transactionReference');
 
-        return md5($this->getTransactionReference().$this->getTransactionId().$this->getStatus().$this->getDomain().$this->getAmount().$this->getCurrency());
+        return md5($this->getTransactionReference().$this->getTransactionId().$this->getStatus().$this->getDomain().$this->getAmount()->getFormatted().$this->getCurrency());
     }
 
     /**

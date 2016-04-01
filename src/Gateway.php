@@ -1,8 +1,8 @@
 <?php
 
-namespace Omnipay\MOLPay;
+namespace League\Omnipay\MOLPay;
 
-use Omnipay\Common\AbstractGateway;
+use League\Omnipay\Common\AbstractGateway;
 
 class Gateway extends AbstractGateway
 {
@@ -70,7 +70,7 @@ class Gateway extends AbstractGateway
      * The default language is English.
      *
      * @param string $value
-     * 
+     *
      * @return $this
      */
     public function setLocale($value)
@@ -92,7 +92,7 @@ class Gateway extends AbstractGateway
      * Set merchantId.
      *
      * @param string $value
-     * 
+     *
      * @return $this
      */
     public function setMerchantId($value)
@@ -114,7 +114,7 @@ class Gateway extends AbstractGateway
      * Set verifyKey.
      *
      * @param string $value
-     * 
+     *
      * @return $this
      */
     public function setVerifyKey($value)
@@ -131,7 +131,7 @@ class Gateway extends AbstractGateway
      */
     public function purchase(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\MOLPay\Message\PurchaseRequest', $parameters);
+        return $this->createRequest('\League\Omnipay\MOLPay\Message\PurchaseRequest', $parameters);
     }
 
     /**
@@ -143,19 +143,21 @@ class Gateway extends AbstractGateway
      */
     public function completePurchase(array $parameters = array())
     {
+        $queryParams = $this->httpRequest->getQueryParams();
+
         return $this->createRequest(
-            '\Omnipay\MOLPay\Message\CompletePurchaseRequest',
+            '\League\Omnipay\MOLPay\Message\CompletePurchaseRequest',
             array_merge(
                 $parameters,
                 array(
-                    'appCode' => $this->httpRequest->request->get('appcode'),
-                    'domain' => $this->httpRequest->request->get('domain'),
-                    'errorMessage' => $this->httpRequest->request->get('error_desc'),
-                    'nbcb' => $this->httpRequest->request->get('nbcb'),
-                    'payDate' => $this->httpRequest->request->get('paydate'),
-                    'sKey' => $this->httpRequest->request->get('skey'),
-                    'status' => $this->httpRequest->request->get('status'),
-                    'transactionReference' => $this->httpRequest->request->get('tranID'),
+                    'appCode' => isset($queryParams['appcode']) ? $queryParams['appcode'] : null,
+                    'domain' => isset($queryParams['domain']) ? $queryParams['domain'] : null,
+                    'errorMessage' => isset($queryParams['error_desc']) ? $queryParams['error_desc'] : null,
+                    'nbcb' => isset($queryParams['nbcb']) ? $queryParams['nbcb'] : null,
+                    'payDate' => isset($queryParams['paydate']) ? $queryParams['paydate'] : null,
+                    'sKey' => isset($queryParams['skey']) ? $queryParams['skey'] : null,
+                    'status' => isset($queryParams['status']) ? $queryParams['status'] : null,
+                    'transactionReference' => isset($queryParams['tranID']) ? $queryParams['tranID'] : null,
                 )
             )
         );

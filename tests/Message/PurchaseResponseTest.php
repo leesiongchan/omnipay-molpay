@@ -1,8 +1,8 @@
 <?php
 
-namespace Omnipay\MOLPay\Message;
+namespace League\Omnipay\MOLPay\Message;
 
-use Omnipay\Tests\TestCase;
+use League\Omnipay\Tests\TestCase;
 
 class PurchaseResponseTest extends TestCase
 {

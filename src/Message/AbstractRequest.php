@@ -1,12 +1,12 @@
 <?php
 
-namespace Omnipay\MOLPay\Message;
+namespace League\Omnipay\MOLPay\Message;
 
-use Omnipay\Common\Helper;
-use Omnipay\Common\Message\AbstractRequest as BaseAbstractRequest;
-use Omnipay\MOLPay\Exception\InvalidCreditCardDetailsException;
-use Omnipay\MOLPay\Exception\InvalidPaymentMethodException;
-use Omnipay\MOLPay\PaymentMethod;
+use League\Omnipay\Common\Helper;
+use League\Omnipay\Common\Message\AbstractRequest as BaseAbstractRequest;
+use League\Omnipay\MOLPay\Exception\InvalidCreditCardDetailsException;
+use League\Omnipay\MOLPay\Exception\InvalidPaymentMethodException;
+use League\Omnipay\MOLPay\PaymentMethod;
 
 abstract class AbstractRequest extends BaseAbstractRequest
 {
@@ -28,7 +28,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
 
     /**
      * Get enableIPN.
-     * 
+     *
      * @return bool
      */
     public function getEnableIPN()
@@ -62,7 +62,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
      * Set locale.
      *
      * @param string $value
-     * 
+     *
      * @return $this
      */
     public function setLocale($value)
@@ -84,7 +84,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
      * Set merchantId.
      *
      * @param string $value
-     * 
+     *
      * @return $this
      */
     public function setMerchantId($value)
@@ -106,7 +106,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
      * Set verifyKey.
      *
      * @param string $value
-     * 
+     *
      * @return $this
      */
     public function setVerifyKey($value)
@@ -131,11 +131,11 @@ abstract class AbstractRequest extends BaseAbstractRequest
      */
     protected function sendIPN()
     {
-        $data = $this->httpRequest->request->all();
+        $data = $this->httpRequest->getQueryParams();
 
         $data['treq'] = 1; // Additional parameter required by IPN
 
-        $this->httpClient->post($this->IPNEndpoint, null, $data)->send();
+        $this->httpClient->request('POST', $this->IPNEndpoint, array(), http_build_query($data));
     }
 
     /**
@@ -149,12 +149,16 @@ abstract class AbstractRequest extends BaseAbstractRequest
     {
         $this->validate('card');
 
-        $card = $this->getCard();
+        $customer = $this->getCard()->getCustomer();
+
+        if (null === $customer) {
+            throw new InvalidCreditCardDetailsException('Customer is required');
+        }
 
         foreach (array('country', 'email', 'name', 'phone') as $key) {
             $method = 'get'.ucfirst(Helper::camelCase($key));
 
-            if (null === $card->$method()) {
+            if (null === $customer->$method()) {
                 throw new InvalidCreditCardDetailsException("The $key parameter is required");
             }
         }
@@ -177,16 +181,14 @@ abstract class AbstractRequest extends BaseAbstractRequest
 
         $paymentMethod = $this->getPaymentMethod();
 
-        if (
-            PaymentMethod::AFFIN_BANK !== $paymentMethod &&
+        if (PaymentMethod::AFFIN_BANK !== $paymentMethod &&
             PaymentMethod::AM_ONLINE !== $paymentMethod &&
             PaymentMethod::CIMB_CLICKS !== $paymentMethod &&
             PaymentMethod::CREDIT_CARD !== $paymentMethod &&
             PaymentMethod::FPX !== $paymentMethod &&
             PaymentMethod::HONG_LEONG_CONNECT !== $paymentMethod &&
             PaymentMethod::MAYBANK2U !== $paymentMethod &&
-            PaymentMethod::RHB_NOW !== $paymentMethod
-        ) {
+            PaymentMethod::RHB_NOW !== $paymentMethod) {
             throw new InvalidPaymentMethodException("The payment method ($paymentMethod) is not supported");
         }
     }

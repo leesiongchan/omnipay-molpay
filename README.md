@@ -13,6 +13,8 @@ processing library for PHP 5.3+. This package implements MOLPay support for Omni
 
 [MOLPay](http://www.molpay.com) is a payment gateway offering from MOLPay Sdn Bhd. This package follows the **MOLPay API Specification (Version 12.1: Updated on 12 April 2015)**.
 
+** Omnipay 3.x is Work in Progress, please do not use in production yet **
+
 ## Installation
 
 Omnipay is installed via [Composer](http://getcomposer.org/). To install, simply add it
@@ -21,7 +23,7 @@ to your `composer.json` file:
 ```json
 {
     "require": {
-        "leesiongchan/omnipay-molpay": "~2.0"
+        "leesiongchan/omnipay-molpay": "~3.0@dev"
     }
 }
 ```
@@ -56,12 +58,14 @@ $gateway->setMerchantId('test1234');
 $gateway->setVerifyKey('abcdefg');
 
 $options = [
-    'amount' => '10.00',
+    'amount' => 1000, // In cents form (eg. 1000 cents = $10.00)
     'card' => new CreditCard(array(
-        'country' => 'MY',
-        'email' => 'ahlee2326@me.com',
-        'name' => 'Lee Siong Chan',
-        'phone' => '0123456789',
+        'customer' => new Customer(array(
+            'country' => 'MY',
+            'email' => 'ahlee2326@me.com',
+            'name' => 'Lee Siong Chan',
+            'phone' => '0123456789',
+        )),
     )),
     'description' => 'Test Payment',
     'transactionId' => '20160331082207680000',

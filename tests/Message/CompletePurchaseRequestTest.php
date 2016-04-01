@@ -1,8 +1,8 @@
 <?php
 
-namespace Omnipay\MOLPay\Message;
+namespace League\Omnipay\MOLPay\Message;
 
-use Omnipay\Tests\TestCase;
+use League\Omnipay\Tests\TestCase;
 
 class CompletePurchaseRequestTest extends TestCase
 {
@@ -11,7 +11,7 @@ class CompletePurchaseRequestTest extends TestCase
         $this->request = new CompletePurchaseRequest($this->getHttpClient(), $this->getHttpRequest());
 
         $this->request->initialize(array(
-            'amount' => '10.00',
+            'amount' => 1000,
             'appCode' => 'abcdefg',
             'currency' => 'MYR',
             'domain' => 'test4321',

@@ -1,9 +1,10 @@
 <?php
 
-namespace Omnipay\MOLPay;
+namespace League\Omnipay\MOLPay;
 
-use Omnipay\Common\CreditCard;
-use Omnipay\Tests\GatewayTestCase;
+use League\Omnipay\Common\CreditCard;
+use League\Omnipay\Common\Customer;
+use League\Omnipay\Tests\GatewayTestCase;
 
 class GatewayTest extends GatewayTestCase
 {
@@ -16,20 +17,17 @@ class GatewayTest extends GatewayTestCase
     {
         parent::setUp();
 
-        $this->gateway = new Gateway($this->getHttpClient(), $this->getHttpRequest());
-
-        $this->gateway->setCurrency('MYR');
-        $this->gateway->setLocale('en');
-        $this->gateway->setMerchantId('test1234');
-        $this->gateway->setVerifyKey('abcdefg');
+        $this->mockGateway($this->getHttpRequest());
 
         $this->options = array(
-            'amount' => '10.00',
+            'amount' => 1000, // In cents form (eg. 1000 cents = $10.00)
             'card' => new CreditCard(array(
-                'country' => 'MY',
-                'email' => 'ahlee2326@me.com',
-                'name' => 'Lee Siong Chan',
-                'phone' => '0123456789',
+                'customer' => new Customer(array(
+                    'country' => 'MY',
+                    'email' => 'ahlee2326@me.com',
+                    'name' => 'Lee Siong Chan',
+                    'phone' => '0123456789',
+                )),
             )),
             'description' => 'Test Payment',
             'transactionId' => '20160331082207680000',
@@ -52,7 +50,7 @@ class GatewayTest extends GatewayTestCase
 
     public function testCompletePurchaseSuccess()
     {
-        $this->getHttpRequest()->request->replace(array(
+        $request = $this->getHttpRequest()->withQueryParams(array(
             'appcode' => 'abcdefg',
             'domain' => 'test4321',
             'paydate' => '2016-03-29 04:02:21',
@@ -61,6 +59,8 @@ class GatewayTest extends GatewayTestCase
             'tranID' => '000001',
         ));
 
+        $this->mockGateway($request);
+
         $response = $this->gateway->completePurchase($this->options)->send();
 
         $this->assertTrue($response->isSuccessful());
@@ -68,11 +68,11 @@ class GatewayTest extends GatewayTestCase
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidResponseException
+     * @expectedException \League\Omnipay\Common\Exception\InvalidResponseException
      */
     public function testCompletePurchaseInvalidSKey()
     {
-        $this->getHttpRequest()->request->replace(array(
+        $request = $this->getHttpRequest()->withQueryParams(array(
             'appcode' => 'abcdefg',
             'domain' => 'test4321',
             'paydate' => '2016-03-29 04:02:21',
@@ -81,15 +81,17 @@ class GatewayTest extends GatewayTestCase
             'tranID' => '000001',
         ));
 
+        $this->mockGateway($request);
+
         $response = $this->gateway->completePurchase($this->options)->send();
     }
 
     /**
-     * @expectedException \Omnipay\Common\Exception\InvalidResponseException
+     * @expectedException \League\Omnipay\Common\Exception\InvalidResponseException
      */
     public function testCompletePurchaseError()
     {
-        $this->getHttpRequest()->request->replace(array(
+        $request = $this->getHttpRequest()->withQueryParams(array(
             'appcode' => 'abcdefg',
             'domain' => 'test4321',
             'paydate' => 'I am not a date',
@@ -99,10 +101,22 @@ class GatewayTest extends GatewayTestCase
             'tranID' => '000001',
         ));
 
+        $this->mockGateway($request);
+
         $response = $this->gateway->completePurchase($this->options)->send();
         $this->assertFalse($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
         $this->assertNull($response->getTransactionReference());
         $this->assertEquals('Invalid date', $response->getMessage());
+    }
+
+    private function mockGateway($request)
+    {
+        $this->gateway = new Gateway($this->getHttpClient(), $request);
+
+        $this->gateway->setCurrency('MYR');
+        $this->gateway->setLocale('en');
+        $this->gateway->setMerchantId('test1234');
+        $this->gateway->setVerifyKey('abcdefg');
     }
 }
