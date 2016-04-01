@@ -1,0 +1,39 @@
+{
+    "name": "leesiongchan/omnipay-molpay",
+    "type": "library",
+    "description": "MOLPay gateway for Omnipay payment processing library",
+    "keywords": [
+        "gateway",
+        "merchant",
+        "molpay",
+        "omnipay",
+        "pay",
+        "payment",
+        "purchase"
+    ],
+    "homepage": "https://github.com/leesiongchan/omnipay-molpay",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Lee Siong Chan",
+            "email": "ahlee2326@me.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "Omnipay\\MOLPay\\" : "src/" }
+    },
+    "autoload-dev": {
+        "psr-4": { "Omnipay\\MOLPay\\Tests\\": "tests/" }
+    },
+    "require": {
+        "omnipay/common": "~2.0"
+    },
+    "require-dev": {
+        "omnipay/tests": "~2.0"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
+        }
+    }
+}
