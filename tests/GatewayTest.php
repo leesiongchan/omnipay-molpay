@@ -34,8 +34,6 @@ class GatewayTest extends GatewayTestCase
             'description' => 'Test Payment',
             'transactionId' => '20160331082207680000',
             'paymentMethod' => 'credit',
-            'returnUrl' => 'https://example.com/return',
-            'notifyUrl' => 'https://example.com/notify',
         );
     }
 

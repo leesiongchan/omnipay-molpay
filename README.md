@@ -40,9 +40,63 @@ The following gateways are provided by this package:
 For general usage instructions, please see the main [Omnipay](https://github.com/thephpleague/omnipay)
 repository.
 
-## Usage
+## Example
 
-Coming soon...
+### Create a purchase request
+
+The example below explains how you can create a purchase request then send it.
+
+```php
+$gateway = Omnipay::create('MOLPay');
+
+$gateway->setCurrency('MYR');
+$gateway->setEnableIPN(true); // Optional
+$gateway->setLocale('en'); // Optional
+$gateway->setMerchantId('test1234');
+$gateway->setVerifyKey('abcdefg');
+
+$options = [
+    'amount' => '10.00',
+    'card' => new CreditCard(array(
+        'country' => 'MY',
+        'email' => 'ahlee2326@me.com',
+        'name' => 'Lee Siong Chan',
+        'phone' => '0123456789',
+    )),
+    'description' => 'Test Payment',
+    'transactionId' => '20160331082207680000',
+    'paymentMethod' => 'credit', // Optional
+];
+
+$response = $gateway->purchase($options)->send();
+
+// Get the MOLPay payment URL (https://www.onlinepayment.com.my/MOLPay/pay/...)
+$redirectUrl = $response->getRedirectUrl(); 
+```
+
+### Complete a purchase request
+
+When the user submit the payment form, the gateway will redirect you to the return URL that you have specified in MOLPay. The code below gives an example how to handle the server feedback answer.
+
+```php
+$response = $gateway->completePurchase($options)->send();
+
+if ($response->isSuccessful()) {
+    // Do something
+    echo $response->getTransactionReference();
+} elseif ($response->isPending()) {
+    // Do something
+} elseif ($response->isCancelled()) {
+    // Do something
+} else {
+    // Error
+}
+
+// Check if is a callback notification
+if ($response->isCallbackNotification()) {
+    // Do something
+}
+```
 
 ## Out Of Scope
 
