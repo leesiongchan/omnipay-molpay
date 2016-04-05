@@ -45,14 +45,6 @@ class CompletePurchaseResponse extends AbstractResponse
     /**
      * {@inheritdoc}
      */
-    public function isCancelled()
-    {
-        return '11' === $this->getRequest()->getStatus();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function isPending()
     {
         return '22' === $this->getRequest()->getStatus();

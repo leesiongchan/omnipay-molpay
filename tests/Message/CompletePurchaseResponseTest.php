@@ -22,13 +22,6 @@ class CompletePurchaseResponseTest extends TestCase
         $this->assertEquals('000001', $this->response->getTransactionReference());
     }
 
-    public function testCompletePurchaseCancel()
-    {
-        $this->getMockRequest()->shouldReceive('getStatus')->andReturn('11');
-
-        $this->assertTrue($this->response->isCancelled());
-    }
-
     public function testCompletePurchasePending()
     {
         $this->getMockRequest()->shouldReceive('getStatus')->andReturn('22');

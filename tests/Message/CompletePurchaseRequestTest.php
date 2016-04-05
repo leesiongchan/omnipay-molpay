@@ -46,20 +46,6 @@ class CompletePurchaseRequestTest extends TestCase
         $this->assertTrue($response->isSuccessful());
     }
 
-    public function testSendCancel()
-    {
-        $this->request->setStatus('11');
-        $this->request->setSKey('1298d6c091a476a8e995051eb9d66805');
-
-        $response = $this->request->send();
-
-        $this->assertEquals('000001', $response->getTransactionReference());
-        $this->assertTrue($response->isCancelled());
-        $this->assertFalse($response->isPending());
-        $this->assertFalse($response->isRedirect());
-        $this->assertFalse($response->isSuccessful());
-    }
-
     public function testSendPending()
     {
         $this->request->setStatus('22');
