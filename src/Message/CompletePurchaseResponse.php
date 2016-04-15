@@ -33,16 +33,6 @@ class CompletePurchaseResponse extends AbstractResponse
     }
 
     /**
-     * Check if the request is a callback notification.
-     *
-     * @return bool
-     */
-    public function isCallbackNotification()
-    {
-        return '1' === $this->getRequest()->getNBCB();
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function isPending()

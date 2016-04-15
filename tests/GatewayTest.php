@@ -9,7 +9,7 @@ use League\Omnipay\Tests\GatewayTestCase;
 class GatewayTest extends GatewayTestCase
 {
     /**
-     * @var \Omnipay\MOLPay\Gateway
+     * @var \League\Omnipay\MOLPay\Gateway
      */
     protected $gateway;
 
@@ -24,7 +24,7 @@ class GatewayTest extends GatewayTestCase
             'card' => new CreditCard(array(
                 'customer' => new Customer(array(
                     'country' => 'MY',
-                    'email' => 'ahlee2326@me.com',
+                    'email' => 'abc@example.com',
                     'name' => 'Lee Siong Chan',
                     'phone' => '0123456789',
                 )),
@@ -43,7 +43,7 @@ class GatewayTest extends GatewayTestCase
         $this->assertTrue($response->isRedirect());
         $this->assertNull($response->getTransactionReference());
         $this->assertEquals(
-            'https://www.onlinepayment.com.my/MOLPay/pay/test1234/?amount=10.00&bill_desc=Test+Payment&bill_email=ahlee2326%40me.com&bill_mobile=0123456789&bill_name=Lee+Siong+Chan&channel=credit&country=MY&currency=MYR&langcode=en&orderid=20160331082207680000&vcode=f3d5496b444ae3d11e09fa92a753ac60',
+            'https://www.onlinepayment.com.my/MOLPay/pay/test1234/?amount=10.00&bill_desc=Test+Payment&bill_email=abc%40example.com&bill_mobile=0123456789&bill_name=Lee+Siong+Chan&channel=credit&country=MY&currency=MYR&langcode=en&orderid=20160331082207680000&vcode=f3d5496b444ae3d11e09fa92a753ac60',
             $response->getRedirectUrl()
         );
     }
@@ -54,7 +54,7 @@ class GatewayTest extends GatewayTestCase
             'appcode' => 'abcdefg',
             'domain' => 'test4321',
             'paydate' => '2016-03-29 04:02:21',
-            'skey' => '0c1e98d6d58f9a30b919bcaeb9790852',
+            'skey' => '9b8be764cc5bad1b4a5d58a3ba4daf58',
             'status' => '00',
             'tranID' => '000001',
         ));

@@ -14,9 +14,6 @@ use League\Omnipay\Common\Exception\InvalidResponseException;
  * * domain               [required] - Merchant ID in MOLPay system
  * * errorMessage                    - Error message
  * * payDate              [required] - Date/Time of the transaction
- * * nbcb                            - Notification from MOLPay
- *                                     - 1 for callback notification
- *                                     - 2 for notification
  * * sKey                 [required] - Data integrity protection hash string.
  * * status               [required] - Payment status
  *                                     - 00 for successful payment
@@ -117,28 +114,6 @@ class CompletePurchaseRequest extends AbstractRequest
     }
 
     /**
-     * Get nbcb.
-     *
-     * @return string
-     */
-    public function getNBCB()
-    {
-        return $this->getParameter('nbcb');
-    }
-
-    /**
-     * Set nbcb.
-     *
-     * @param string $value
-     *
-     * @return $this
-     */
-    public function setNBCB($value)
-    {
-        return $this->setParameter('nbcb', $value);
-    }
-
-    /**
      * Get sKey.
      *
      * @return string
@@ -224,7 +199,6 @@ class CompletePurchaseRequest extends AbstractRequest
         }
 
         return array(
-            'nbcb' => $this->getNBCB(),
             'status' => $this->getStatus(),
             'transactionId' => $this->getTransactionId(),
             'transactionReference' => $this->getTransactionReference(),
@@ -253,7 +227,7 @@ class CompletePurchaseRequest extends AbstractRequest
     {
         $this->validate('amount', 'currency', 'domain', 'status', 'transactionId', 'transactionReference');
 
-        return md5($this->getTransactionReference().$this->getTransactionId().$this->getStatus().$this->getDomain().$this->getAmount()->getFormatted().$this->getCurrency());
+        return md5($this->getTransactionReference().$this->getTransactionId().$this->getStatus().$this->getDomain().$this->getAmount()->getFormatted().$this->convertCurrency());
     }
 
     /**
@@ -266,5 +240,16 @@ class CompletePurchaseRequest extends AbstractRequest
         $this->validate('appCode', 'domain', 'payDate', 'verifyKey');
 
         return md5($this->getPayDate().$this->getDomain().$this->generatePreSKey().$this->getAppCode().$this->getVerifyKey());
+    }
+
+    /**
+     * Convert currency to 'MOLPay''s style currency.
+     * @NOTE Funny enough, MOLPay returns currency as 'RM' not 'MYR'. And I am not sure about other currencies though.
+     *
+     * @return string
+     */
+    private function convertCurrency()
+    {
+        return $this->getCurrency() !== 'MYR' ? $this->getCurrency() : 'RM';
     }
 }

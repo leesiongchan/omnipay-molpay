@@ -127,7 +127,7 @@ class Gateway extends AbstractGateway
      *
      * @param array $parameters
      *
-     * @return \Omnipay\MOLPay\Message\PurchaseRequest
+     * @return \League\Omnipay\MOLPay\Message\PurchaseRequest
      */
     public function purchase(array $parameters = array())
     {
@@ -139,7 +139,7 @@ class Gateway extends AbstractGateway
      *
      * @param array $parameters
      *
-     * @return \Omnipay\MOLPay\Message\CompletePurchaseRequest
+     * @return \League\Omnipay\MOLPay\Message\CompletePurchaseRequest
      */
     public function completePurchase(array $parameters = array())
     {
@@ -152,8 +152,7 @@ class Gateway extends AbstractGateway
                 array(
                     'appCode' => isset($parsedBody['appcode']) ? $parsedBody['appcode'] : null,
                     'domain' => isset($parsedBody['domain']) ? $parsedBody['domain'] : null,
-                    'errorMessage' => isset($parsedBody['error_desc']) ? $parsedBody['error_desc'] : null,
-                    'nbcb' => isset($parsedBody['nbcb']) ? $parsedBody['nbcb'] : null,
+                    'errorMessage' => isset($parsedBody['error_desc']) && strlen($parsedBody['error_desc']) > 0 ? $parsedBody['error_desc'] : null,
                     'payDate' => isset($parsedBody['paydate']) ? $parsedBody['paydate'] : null,
                     'sKey' => isset($parsedBody['skey']) ? $parsedBody['skey'] : null,
                     'status' => isset($parsedBody['status']) ? $parsedBody['status'] : null,
