@@ -150,8 +150,7 @@ class Gateway extends AbstractGateway
                 array(
                     'appCode' => $this->httpRequest->request->get('appcode'),
                     'domain' => $this->httpRequest->request->get('domain'),
-                    'errorMessage' => $this->httpRequest->request->get('error_desc'),
-                    'nbcb' => $this->httpRequest->request->get('nbcb'),
+                    'errorMessage' => strlen($this->httpRequest->request->get('error_desc')) > 0 ? $this->httpRequest->request->get('error_desc') : null,
                     'payDate' => $this->httpRequest->request->get('paydate'),
                     'sKey' => $this->httpRequest->request->get('skey'),
                     'status' => $this->httpRequest->request->get('status'),

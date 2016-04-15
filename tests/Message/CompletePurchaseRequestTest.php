@@ -16,7 +16,7 @@ class CompletePurchaseRequestTest extends TestCase
             'currency' => 'MYR',
             'domain' => 'test4321',
             'payDate' => '2016-03-29 04:02:21',
-            'sKey' => '0c1e98d6d58f9a30b919bcaeb9790852',
+            'sKey' => '9b8be764cc5bad1b4a5d58a3ba4daf58',
             'status' => '00',
             'transactionId' => '20160331082207680000',
             'transactionReference' => '000001',
@@ -35,7 +35,7 @@ class CompletePurchaseRequestTest extends TestCase
     public function testSendSuccess()
     {
         $this->request->setStatus('00');
-        $this->request->setSKey('0c1e98d6d58f9a30b919bcaeb9790852');
+        $this->request->setSKey('9b8be764cc5bad1b4a5d58a3ba4daf58');
 
         $response = $this->request->send();
 
@@ -49,7 +49,7 @@ class CompletePurchaseRequestTest extends TestCase
     public function testSendPending()
     {
         $this->request->setStatus('22');
-        $this->request->setSKey('8192eb5627012f236fc36e73f5d49a5e');
+        $this->request->setSKey('9d65ed0b785fea1c8fc80b8316555ee3');
 
         $response = $this->request->send();
 

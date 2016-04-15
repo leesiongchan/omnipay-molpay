@@ -28,11 +28,4 @@ class CompletePurchaseResponseTest extends TestCase
 
         $this->assertTrue($this->response->isPending());
     }
-
-    public function testCompletePurchaseCallbackNotification()
-    {
-        $this->getMockRequest()->shouldReceive('getNBCB')->andReturn('1');
-
-        $this->assertTrue($this->response->isCallbackNotification());
-    }
 }

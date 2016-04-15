@@ -59,7 +59,7 @@ $options = [
     'amount' => '10.00',
     'card' => new CreditCard(array(
         'country' => 'MY',
-        'email' => 'ahlee2326@me.com',
+        'email' => 'abc@example.com',
         'name' => 'Lee Siong Chan',
         'phone' => '0123456789',
     )),
@@ -86,15 +86,8 @@ if ($response->isSuccessful()) {
     echo $response->getTransactionReference();
 } elseif ($response->isPending()) {
     // Do something
-} elseif ($response->isCancelled()) {
-    // Do something
 } else {
     // Error
-}
-
-// Check if is a callback notification
-if ($response->isCallbackNotification()) {
-    // Do something
 }
 ```
 

@@ -175,7 +175,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
     {
         $this->validate('paymentMethod');
 
-        $paymentMethod = $this->getPaymentMethod();
+        $paymentMethod = strtolower($this->getPaymentMethod());
 
         if (
             PaymentMethod::AFFIN_BANK !== $paymentMethod &&

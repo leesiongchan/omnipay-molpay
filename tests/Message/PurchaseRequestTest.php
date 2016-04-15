@@ -15,7 +15,7 @@ class PurchaseRequestTest extends TestCase
             'amount' => '10.00',
             'card' => new CreditCard(array(
                 'country' => 'MY',
-                'email' => 'ahlee2326@me.com',
+                'email' => 'abc@example.com',
                 'name' => 'Lee Siong Chan',
                 'phone' => '0123456789',
             )),
@@ -35,7 +35,7 @@ class PurchaseRequestTest extends TestCase
 
         $this->assertEquals('10.00', $data['amount']);
         $this->assertEquals('MY', $data['country']);
-        $this->assertEquals('ahlee2326@me.com', $data['bill_email']);
+        $this->assertEquals('abc@example.com', $data['bill_email']);
         $this->assertEquals('Lee Siong Chan', $data['bill_name']);
         $this->assertEquals('0123456789', $data['bill_mobile']);
         $this->assertEquals('MYR', $data['currency']);
@@ -54,7 +54,7 @@ class PurchaseRequestTest extends TestCase
         $this->assertTrue($response->isRedirect());
         $this->assertNull($response->getTransactionReference());
         $this->assertEquals(
-            'https://www.onlinepayment.com.my/MOLPay/pay/test1234/?amount=10.00&bill_desc=Test+Payment&bill_email=ahlee2326%40me.com&bill_mobile=0123456789&bill_name=Lee+Siong+Chan&channel=credit&country=MY&currency=MYR&langcode=en&orderid=20160331082207680000&vcode=f3d5496b444ae3d11e09fa92a753ac60',
+            'https://www.onlinepayment.com.my/MOLPay/pay/test1234/?amount=10.00&bill_desc=Test+Payment&bill_email=abc%40example.com&bill_mobile=0123456789&bill_name=Lee+Siong+Chan&channel=credit&country=MY&currency=MYR&langcode=en&orderid=20160331082207680000&vcode=f3d5496b444ae3d11e09fa92a753ac60',
             $response->getRedirectUrl()
         );
     }
