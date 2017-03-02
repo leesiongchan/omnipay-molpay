@@ -234,10 +234,10 @@ class CompletePurchaseRequest extends AbstractRequest
     {
         $this->validate('amount', 'currency', 'domain', 'status', 'transactionId', 'transactionReference');
 
-        $preSKey = md5($this->getTransactionReference().$this->getTransactionId().$this->getStatus().$this->getDomain().$this->getAmount()->getFormatted().$this->getCurrency());
+        $preSKey = md5($this->getTransactionReference().$this->getTransactionId().$this->getStatus().$this->getDomain().$this->getAmount().$this->getCurrency());
 
         if ($fallbackMode) {
-            $preSKey = md5($this->getTransactionReference().$this->getTransactionId().$this->getStatus().$this->getDomain().$this->getAmount()->getFormatted().$this->getConvertedCurrency());
+            $preSKey = md5($this->getTransactionReference().$this->getTransactionId().$this->getStatus().$this->getDomain().$this->getAmount().$this->getConvertedCurrency());
         }
 
         return $preSKey;
