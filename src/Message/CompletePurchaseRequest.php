@@ -228,7 +228,7 @@ class CompletePurchaseRequest extends AbstractRequest
      *
      * @return string
      */
-    protected function generatePreSKey($fallbackMode)
+    protected function generatePreSKey($fallbackMode = false)
     {
         $this->validate('amount', 'currency', 'domain', 'status', 'transactionId', 'transactionReference');
 
@@ -246,7 +246,7 @@ class CompletePurchaseRequest extends AbstractRequest
      *
      * @return string
      */
-    protected function generateSKey($fallbackMode)
+    protected function generateSKey($fallbackMode = false)
     {
         $this->validate('appCode', 'domain', 'payDate', 'verifyKey');
 
