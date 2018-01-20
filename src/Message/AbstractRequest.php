@@ -20,6 +20,13 @@ abstract class AbstractRequest extends BaseAbstractRequest
     protected $endpoint = 'https://www.onlinepayment.com.my/MOLPay/pay/';
 
     /**
+     * Sandbox Endpoint URL.
+     *
+     * @var string
+     */
+    protected $sandboxEndpoint = 'https://sandbox.molpay.com/MOLPay/pay/';
+
+    /**
      * MOLPay IPN (Instant Payment Notification) endpoint URL.
      *
      * @var string
@@ -28,7 +35,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
 
     /**
      * Get enableIPN.
-     * 
+     *
      * @return bool
      */
     public function getEnableIPN()
@@ -62,7 +69,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
      * Set locale.
      *
      * @param string $value
-     * 
+     *
      * @return $this
      */
     public function setLocale($value)
@@ -84,7 +91,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
      * Set merchantId.
      *
      * @param string $value
-     * 
+     *
      * @return $this
      */
     public function setMerchantId($value)
@@ -106,12 +113,55 @@ abstract class AbstractRequest extends BaseAbstractRequest
      * Set verifyKey.
      *
      * @param string $value
-     * 
+     *
      * @return $this
      */
     public function setVerifyKey($value)
     {
         return $this->setParameter('verifyKey', $value);
+    }
+
+    /**
+     * Get secretKey.
+     *
+     * @return string
+     */
+    public function getSecretKey()
+    {
+        return $this->getParameter('secretKey');
+    }
+
+    /**
+     * Set secretKey.
+     *
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function setSecretKey($value)
+    {
+        return $this->setParameter('secretKey', $value);
+    }
+
+    /**
+     * Gets the test mode of the request from the gateway.
+     *
+     * @return boolean
+     */
+    public function getTestMode()
+    {
+        return $this->getParameter('testMode');
+    }
+
+    /**
+     * Sets the test mode of the request.
+     *
+     * @param boolean $value True for test mode on.
+     * @return AbstractRequest
+     */
+    public function setTestMode($value)
+    {
+        return $this->setParameter('testMode', $value);
     }
 
     /**
@@ -123,7 +173,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
     {
         $this->validate('merchantId');
 
-        return $this->endpoint.$this->getMerchantId().'/';
+        return ($this->getTestMode() ? $this->sandboxEndpoint : $this->endpoint).$this->getMerchantId().'/';
     }
 
     /**
