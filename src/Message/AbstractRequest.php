@@ -10,7 +10,7 @@ use Omnipay\MOLPay\PaymentMethod;
 
 abstract class AbstractRequest extends BaseAbstractRequest
 {
-    const API_VERSION = '12.1';
+    const API_VERSION = '13.7';
 
     /**
      * Endpoint URL.
