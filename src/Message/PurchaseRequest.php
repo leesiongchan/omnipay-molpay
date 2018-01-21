@@ -42,6 +42,8 @@ class PurchaseRequest extends AbstractRequest
             'langcode' => $this->getLocale(),
             'orderid' => $this->getTransactionId(),
             'vcode' => $this->generateVCode(),
+            'returnurl' => $this->getReturnUrl(),
+            'cancelurl' => $this->getCancelUrl(),
         );
     }
 

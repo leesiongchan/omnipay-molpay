@@ -18,10 +18,12 @@ class GatewayTest extends GatewayTestCase
 
         $this->gateway = new Gateway($this->getHttpClient(), $this->getHttpRequest());
 
+        $this->gateway->setTestMode(false);
         $this->gateway->setCurrency('MYR');
         $this->gateway->setLocale('en');
         $this->gateway->setMerchantId('test1234');
         $this->gateway->setVerifyKey('abcdefg');
+        $this->gateway->setSecretKey('hilkjmn');
 
         $this->options = array(
             'amount' => '10.00',
@@ -56,7 +58,7 @@ class GatewayTest extends GatewayTestCase
             'appcode' => 'abcdefg',
             'domain' => 'test4321',
             'paydate' => '2016-03-29 04:02:21',
-            'skey' => '9b8be764cc5bad1b4a5d58a3ba4daf58',
+            'skey' => '0be898400610105af17b3a462c44241b',
             'status' => '00',
             'tranID' => '000001',
         ));

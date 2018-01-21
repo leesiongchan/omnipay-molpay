@@ -70,7 +70,7 @@ class Gateway extends AbstractGateway
      * The default language is English.
      *
      * @param string $value
-     * 
+     *
      * @return $this
      */
     public function setLocale($value)
@@ -92,7 +92,7 @@ class Gateway extends AbstractGateway
      * Set merchantId.
      *
      * @param string $value
-     * 
+     *
      * @return $this
      */
     public function setMerchantId($value)
@@ -114,12 +114,55 @@ class Gateway extends AbstractGateway
      * Set verifyKey.
      *
      * @param string $value
-     * 
+     *
      * @return $this
      */
     public function setVerifyKey($value)
     {
         return $this->setParameter('verifyKey', $value);
+    }
+
+    /**
+     * Get secretKey.
+     *
+     * @return string
+     */
+    public function getSecretKey()
+    {
+        return $this->getParameter('secretKey');
+    }
+
+    /**
+     * Set secretKey.
+     *
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function setSecretKey($value)
+    {
+        return $this->setParameter('secretKey', $value);
+    }
+
+    /**
+     * Gets the test mode of the request from the gateway.
+     *
+     * @return boolean
+     */
+    public function getTestMode()
+    {
+        return $this->getParameter('testMode');
+    }
+
+    /**
+     * Sets the test mode of the request.
+     *
+     * @param boolean $value True for test mode on.
+     * @return AbstractRequest
+     */
+    public function setTestMode($value)
+    {
+        return $this->setParameter('testMode', $value);
     }
 
     /**

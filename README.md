@@ -11,7 +11,7 @@
 [Omnipay](https://github.com/thephpleague/omnipay) is a framework agnostic, multi-gateway payment
 processing library for PHP 5.3+. This package implements MOLPay support for Omnipay.
 
-[MOLPay](http://www.molpay.com) is a payment gateway offering from MOLPay Sdn Bhd. This package follows the **MOLPay API Specification (Version 12.1: Updated on 12 April 2015)**.
+[MOLPay](http://www.molpay.com) is a payment gateway offering from MOLPay Sdn Bhd. This package follows the **MOLPay API Specification (Version 13.7: Updated on 10 Oct 2017)**.
 
 ## Installation
 
@@ -71,7 +71,7 @@ $options = [
 $response = $gateway->purchase($options)->send();
 
 // Get the MOLPay payment URL (https://www.onlinepayment.com.my/MOLPay/pay/...)
-$redirectUrl = $response->getRedirectUrl(); 
+$redirectUrl = $response->getRedirectUrl();
 ```
 
 ### Complete a purchase request
@@ -93,7 +93,7 @@ if ($response->isSuccessful()) {
 
 ## Out Of Scope
 
-Omnipay does not cover recurring payments or billing agreements, and so those features are not included in this package. Extensions to this gateway are always welcome. 
+Omnipay does not cover recurring payments or billing agreements, and so those features are not included in this package. Extensions to this gateway are always welcome.
 
 ## Support
 
