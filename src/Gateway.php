@@ -202,4 +202,15 @@ class Gateway extends AbstractGateway
             )
         );
     }
+
+    /**
+     * Create a refund request
+     *
+     * @param array $parameters
+     * @return \Omnipay\Common\Message\AbstractRequest
+     */
+    public function refund(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\MOLPay\Message\RefundRequest', $parameters);
+    }
 }
