@@ -198,6 +198,7 @@ class Gateway extends AbstractGateway
                     'sKey' => $this->httpRequest->request->get('skey'),
                     'status' => $this->httpRequest->request->get('status'),
                     'transactionReference' => $this->httpRequest->request->get('tranID'),
+                    'channel' => $this->httpRequest->request->get('channel')
                 )
             )
         );
@@ -211,6 +212,11 @@ class Gateway extends AbstractGateway
      */
     public function refund(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\MOLPay\Message\RefundRequest', $parameters);
+        if (array_key_exists('refundType', $parameters) && $parameters['refundType'] === 'P') {
+            return $this->createRequest('\Omnipay\MOLPay\Message\PartialRefundRequest', $parameters);
+        } else {
+            return $this->createRequest('\Omnipay\MOLPay\Message\RefundRequest', $parameters);
+        }
+
     }
 }
