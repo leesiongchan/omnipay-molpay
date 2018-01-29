@@ -2,17 +2,19 @@
 
 namespace Omnipay\MOLPay\Message;
 
-
 /**
  * Class ReversalRequest
  * @package Omnipay\MOLPay\Message
  *
  * MOLPay Reversal Request
- * * ### Parameters
+ * ### Parameters
  *
- * * txnID  [required] - Unique transaction ID for tracking purpose
- * * domain [required] - Merchant ID in MOLPay system
- * * skey   [required] - This is the data integrity protection hash string
+ * * txnID  [mandatory] - Unique transaction ID for tracking purpose
+ * * domain [mandatory] - Merchant ID in MOLPay system
+ * * skey   [mandatory] - This is the data integrity protection hash string
+ * * url    [optional]  - The URL to receive POST response from MOLPay
+ * * type   [optional]  - 0 = plain text result (default)
+ * *                      1 = result via POST method
  */
 class ReversalRequest extends AbstractRequest
 {

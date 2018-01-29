@@ -121,4 +121,29 @@ class GatewayTest extends GatewayTestCase
         $data = $request->getData();
         $this->assertNotEmpty($data);
     }
+
+    public function testRefund()
+    {
+        $request = $this->gateway->refund(array(
+            'transactionReference'  => '25248208',
+            'refId'                 => 'merchant_refund_ref_id',
+            'amount'                => '10.00',
+            'bankCode'              => 'MBBEMYKL',
+            'beneficiaryName'       => 'beneficiary_name',
+            'beneficiaryAccountNo'  => 'beneficiary_account_no',
+        ));
+
+        $this->assertInstanceOf('\Omnipay\MOLPay\Message\PartialRefundRequest', $request);
+        $this->assertSame('25248208', $request->getTransactionReference());
+        $this->assertSame('merchant_refund_ref_id', $request->getRefId());
+        $this->assertSame('10.00', $request->getAmount());
+        $this->assertSame('MBBEMYKL', $request->getBankCode());
+        $this->assertSame('beneficiary_name', $request->getBeneficiaryName());
+        $this->assertSame('beneficiary_account_no', $request->getBeneficiaryAccountNo());
+
+        $endPoint = $request->getEndpoint();
+        $this->assertSame('https://api.molpay.com/MOLPay/API/refundAPI/index.php', $endPoint);
+        $data = $request->getData();
+        $this->assertNotEmpty($data);
+    }
 }
