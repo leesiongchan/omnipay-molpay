@@ -99,7 +99,7 @@ The following is the example to void a captured transaction, your can refer to M
 ```php
 $gateway = Omnipay::create('MOLPay');
 
-$gateway->setMerchantId('your_merchant_id);
+$gateway->setMerchantId('your_merchant_id');
 $gateway->setSecretKey('your_secret_key');
 
 $request = $gateway->void([
@@ -123,7 +123,7 @@ To perform a partial refund, you need to specify more parameters as below
 ```php
 $gateway = Omnipay::create('MOLPay');
 
-$gateway->setMerchantId('your_merchant_id);
+$gateway->setMerchantId('your_merchant_id');
 $gateway->setSecretKey('your_secret_key');
 
 $request = $gateway->refund([
