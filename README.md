@@ -91,6 +91,60 @@ if ($response->isSuccessful()) {
 }
 ```
 
+### Void or Reverse a 'captured' transaction
+###### Only available for limited merchants and channels
+
+The following is the example to void a captured transaction, your can refer to MOLPay Reversal Request api spec.
+
+```php
+$gateway = Omnipay::create('MOLPay');
+
+$gateway->setMerchantId('your_merchant_id);
+$gateway->setSecretKey('your_secret_key');
+
+$request = $gateway->void([
+    'transactionReference' => '25248208'
+]);
+        
+$response = $request->send();
+
+if ($response->isSuccessful()) {
+    // Update your data model
+} else {
+    echo($response->getMessage());
+}
+```
+
+### Request Partial Refund for a 'captured' or 'settled' transaction
+###### Only available for limited merchants and channels
+
+To perform a partial refund, you need to specify more parameters as below
+
+```php
+$gateway = Omnipay::create('MOLPay');
+
+$gateway->setMerchantId('your_merchant_id);
+$gateway->setSecretKey('your_secret_key');
+
+$request = $gateway->refund([
+    'transactionReference'  => '25248208',
+    'refId'                 => 'merchant_refund_red_id',
+    'amount'                => '10.00',
+    'bankCode'              => $bank_code, // from user who request to refund
+    'beneficiaryName'       => $beneficiary_name, // from user who request to refund
+    'beneficiaryAccountNo'  => $beneficiary_account_no, // from user who request to refund
+]);
+        
+$response = $request->send();
+
+// The refund process will take about 7-14 days after the request sent
+if ($response->isSuccessful() || $response->isPending() ) {
+    // Update your data model
+} else {
+    echo($response->getMessage());
+}
+```
+
 ## Out Of Scope
 
 Omnipay does not cover recurring payments or billing agreements, and so those features are not included in this package. Extensions to this gateway are always welcome.
