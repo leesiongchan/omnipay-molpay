@@ -100,6 +100,7 @@ The following is the example to void a captured transaction, your can refer to M
 $gateway = Omnipay::create('MOLPay');
 
 $gateway->setMerchantId('your_merchant_id');
+$gateway->setVerifyKey('your_verify_key');
 $gateway->setSecretKey('your_secret_key');
 
 $request = $gateway->void([
@@ -124,12 +125,14 @@ To perform a partial refund, you need to specify more parameters as below
 $gateway = Omnipay::create('MOLPay');
 
 $gateway->setMerchantId('your_merchant_id');
+$gateway->setVerifyKey('your_verify_key');
 $gateway->setSecretKey('your_secret_key');
 
 $request = $gateway->refund([
     'transactionReference'  => '25248208',
     'refId'                 => 'merchant_refund_red_id',
     'amount'                => '10.00',
+    'channel'               => $transaction_channel, // data saved from $gateway->purchase() response, e.g FPX_MB2U
     'bankCode'              => $bank_code, // from user who request to refund
     'beneficiaryName'       => $beneficiary_name, // from user who request to refund
     'beneficiaryAccountNo'  => $beneficiary_account_no, // from user who request to refund
