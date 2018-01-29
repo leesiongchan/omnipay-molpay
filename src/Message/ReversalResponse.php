@@ -5,11 +5,15 @@ namespace Omnipay\MOLPay\Message;
 use Omnipay\Common\Message\AbstractResponse;
 use Omnipay\Common\Message\RequestInterface;
 
+
 /**
- * Class RefundResponse
+ * Class ReversalResponse
  * @package Omnipay\MOLPay\Message
+ *
+ * MOLPay Reversal Response
+ *
  */
-class RefundResponse extends AbstractResponse
+class ReversalResponse extends AbstractResponse
 {
     /**
      * Reversal Request Response statCodes and messages
@@ -25,8 +29,9 @@ class RefundResponse extends AbstractResponse
         '17' => 'Transaction not found'
     );
 
+
     /**
-     * RefundResponse constructor.
+     * ReversalResponse constructor.
      * @param RequestInterface $request
      * @param mixed $data
      */

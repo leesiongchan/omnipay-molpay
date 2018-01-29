@@ -4,20 +4,19 @@ namespace Omnipay\MOLPay\Message;
 
 use Omnipay\Tests\TestCase;
 
-class RefundRequestTest extends TestCase
+class ReversalRequestTest extends TestCase
 {
     /**
-     * @var \Omnipay\MOLPay\Message\RefundRequest
+     * @var \Omnipay\MOLPay\Message\ReversalRequest
      */
     private $request;
 
     public function setUp()
     {
         $client = $this->getHttpClient();
-
         $request = $this->getHttpRequest();
 
-        $this->request = new RefundRequest($client, $request);
+        $this->request = new ReversalRequest($client, $request);
     }
 
     public function testGetData()

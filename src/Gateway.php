@@ -214,4 +214,15 @@ class Gateway extends AbstractGateway
     {
         return $this->createRequest('\Omnipay\MOLPay\Message\PartialRefundRequest', $parameters);
     }
+
+    /**
+     * Create a void request
+     *
+     * @param array $parameters
+     * @return \Omnipay\Common\Message\AbstractRequest
+     */
+    public function void(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\MOLPay\Message\ReversalRequest', $parameters);
+    }
 }

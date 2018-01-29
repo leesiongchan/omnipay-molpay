@@ -4,7 +4,7 @@ namespace Omnipay\MOLPay\Message;
 
 
 /**
- * Class RefundRequest
+ * Class ReversalRequest
  * @package Omnipay\MOLPay\Message
  *
  * MOLPay Reversal Request
@@ -14,7 +14,7 @@ namespace Omnipay\MOLPay\Message;
  * * domain [required] - Merchant ID in MOLPay system
  * * skey   [required] - This is the data integrity protection hash string
  */
-class RefundRequest extends AbstractRequest
+class ReversalRequest extends AbstractRequest
 {
     /**
      * Reversal Request URL
@@ -75,7 +75,7 @@ class RefundRequest extends AbstractRequest
 
         $httpResponse = $httpRequest->send();
 
-        return $this->response = new RefundResponse($this, $httpResponse->getBody());
+        return $this->response = new ReversalResponse($this, $httpResponse->getBody());
     }
 
     /**

@@ -108,13 +108,13 @@ class GatewayTest extends GatewayTestCase
         $this->assertEquals('Invalid date', $response->getMessage());
     }
 
-    public function testRefund()
+    public function testVoid()
     {
-        $request = $this->gateway->refund(array(
+        $request = $this->gateway->void(array(
             'transactionReference' => '25248208'
         ));
 
-        $this->assertInstanceOf('\Omnipay\MOLPay\Message\RefundRequest', $request);
+        $this->assertInstanceOf('\Omnipay\MOLPay\Message\ReversalRequest', $request);
         $this->assertSame('25248208', $request->getTransactionReference());
         $endPoint = $request->getEndpoint();
         $this->assertSame('https://api.molpay.com/MOLPay/API/refundAPI/refundAPI/refund.php', $endPoint);
