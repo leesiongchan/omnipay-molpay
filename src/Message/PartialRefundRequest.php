@@ -8,14 +8,9 @@ class PartialRefundRequest extends AbstractRequest
 
     protected $sandboxEndpoint = 'https://sandbox.molpay.com/MOLPay/API/refundAPI/index.php';
 
-    public function setRefundType($value)
-    {
-        return $this->setParameter('refundType', $value);
-    }
-
     public function getRefundType()
     {
-        return $this->getParameter('refundType');
+        return 'P';
     }
 
     public function setRefId($value)

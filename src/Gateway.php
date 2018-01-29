@@ -212,11 +212,6 @@ class Gateway extends AbstractGateway
      */
     public function refund(array $parameters = array())
     {
-        if (array_key_exists('refundType', $parameters) && $parameters['refundType'] === 'P') {
-            return $this->createRequest('\Omnipay\MOLPay\Message\PartialRefundRequest', $parameters);
-        } else {
-            return $this->createRequest('\Omnipay\MOLPay\Message\RefundRequest', $parameters);
-        }
-
+        return $this->createRequest('\Omnipay\MOLPay\Message\PartialRefundRequest', $parameters);
     }
 }
