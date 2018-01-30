@@ -112,7 +112,7 @@ $response = $request->send();
 if ($response->isSuccessful()) {
     // Update your data model
 } else {
-    echo($response->getMessage());
+    echo $response->getMessage();
 }
 ```
 
@@ -144,7 +144,7 @@ $response = $request->send();
 if ($response->isSuccessful() || $response->isPending() ) {
     // Update your data model
 } else {
-    echo($response->getMessage());
+    echo $response->getMessage();
 }
 ```
 
