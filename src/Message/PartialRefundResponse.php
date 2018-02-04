@@ -32,11 +32,16 @@ class PartialRefundResponse extends AbstractResponse
      */
     public function getMessage()
     {
+        // Handle MOLPay returned error
         if (array_key_exists('error_desc', $this->data)) {
             return $this->data['error_desc'];
-        } else if (array_key_exists('reason', $this->data)) {
+        }
+        // Handle MOLPay return success with status 'Rejected'
+        else if (array_key_exists('reason', $this->data)) {
             return $this->data['reason'];
-        } else {
+        }
+        // Handle MOLPay returned unknown exceptions that not specified in spec
+        else {
             return 'Unknown error';
         }
     }
@@ -50,6 +55,7 @@ class PartialRefundResponse extends AbstractResponse
             return false;
         }
 
+        // API returned 'success', not actual '00' at this development time
         return ($this->data['Status'] === '00' || strtolower($this->data['Status']) === 'success');
     }
 
