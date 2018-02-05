@@ -1,0 +1,11 @@
+HTTP/1.1 200 OK
+Date: Sun, 28 Jan 2018 11:21:38 GMT
+Server: Apache
+Content-Length: 93
+Connection: close
+Content-Type: application/json
+
+{
+    "error_code": "PR011",
+    "error_desc": "Exceed refund amount for this transaction."
+}

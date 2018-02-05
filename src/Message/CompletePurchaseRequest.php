@@ -179,6 +179,16 @@ class CompletePurchaseRequest extends AbstractRequest
         return $this->setParameter('transactionReference', $value);
     }
 
+    public function getChannel()
+    {
+        return $this->getParameter('channel');
+    }
+
+    public function setChannel($value)
+    {
+        return $this->setParameter('channel', $value);
+    }
+
     /**
      * {@inheritdoc}
      */
