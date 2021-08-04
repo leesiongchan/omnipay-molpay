@@ -20,6 +20,13 @@ abstract class AbstractRequest extends BaseAbstractRequest
     protected $endpoint = 'https://www.onlinepayment.com.my/MOLPay/pay/';
 
     /**
+     * Sandbox Endpoint URL.
+     *
+     * @var string
+     */
+    protected $sandboxEndpoint = 'https://sandbox.merchant.razer.com/MOLPay/pay/';
+
+    /**
      * MOLPay IPN (Instant Payment Notification) endpoint URL.
      *
      * @var string
