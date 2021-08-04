@@ -20,16 +20,16 @@
         }
     ],
     "autoload": {
-        "psr-4": { "League\\Omnipay\\MOLPay\\" : "src/" }
+        "psr-4": { "Omnipay\\MOLPay\\" : "src/" }
     },
     "autoload-dev": {
-        "psr-4": { "League\\Omnipay\\MOLPay\\Tests\\": "tests/" }
+        "psr-4": { "Omnipay\\MOLPay\\Tests\\": "tests/" }
     },
     "require": {
-        "omnipay/omnipay": "~3.0@dev"
+        "omnipay/common": "^3"
     },
     "require-dev": {
-        "omnipay/tests": "~3.0@dev"
+        "omnipay/tests": "^3"
     },
     "extra": {
         "branch-alias": {
