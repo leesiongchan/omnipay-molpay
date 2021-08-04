@@ -1,10 +1,9 @@
 <?php
 
-namespace League\Omnipay\MOLPay\Message;
+namespace Omnipay\MOLPay\Message;
 
-use League\Omnipay\Common\CreditCard;
-use League\Omnipay\Common\Customer;
-use League\Omnipay\Tests\TestCase;
+use Omnipay\Common\CreditCard;
+use Omnipay\Tests\TestCase;
 
 class PurchaseRequestTest extends TestCase
 {
@@ -13,14 +12,12 @@ class PurchaseRequestTest extends TestCase
         $this->request = new PurchaseRequest($this->getHttpClient(), $this->getHttpRequest());
 
         $this->request->initialize(array(
-            'amount' => 1000,
+            'amount' => '10.00',
             'card' => new CreditCard(array(
-                'customer' => new Customer(array(
-                    'country' => 'MY',
-                    'email' => 'abc@example.com',
-                    'name' => 'Lee Siong Chan',
-                    'phone' => '0123456789',
-                )),
+                'country' => 'MY',
+                'email' => 'abc@example.com',
+                'name' => 'Lee Siong Chan',
+                'phone' => '0123456789',
             )),
             'currency' => 'MYR',
             'description' => 'Test Payment',

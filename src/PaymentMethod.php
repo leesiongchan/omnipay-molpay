@@ -1,6 +1,6 @@
 <?php
 
-namespace League\Omnipay\MOLPay;
+namespace Omnipay\MOLPay;
 
 /**
  * Payment methods accepted by MOLPay.

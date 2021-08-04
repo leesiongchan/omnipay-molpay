@@ -1,8 +1,8 @@
 <?php
 
-namespace League\Omnipay\MOLPay;
+namespace Omnipay\MOLPay;
 
-use League\Omnipay\Common\AbstractGateway;
+use Omnipay\Common\AbstractGateway;
 
 class Gateway extends AbstractGateway
 {
@@ -123,15 +123,58 @@ class Gateway extends AbstractGateway
     }
 
     /**
+     * Get secretKey.
+     *
+     * @return string
+     */
+    public function getSecretKey()
+    {
+        return $this->getParameter('secretKey');
+    }
+
+    /**
+     * Set secretKey.
+     *
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function setSecretKey($value)
+    {
+        return $this->setParameter('secretKey', $value);
+    }
+
+    /**
+     * Gets the test mode of the request from the gateway.
+     *
+     * @return boolean
+     */
+    public function getTestMode()
+    {
+        return $this->getParameter('testMode');
+    }
+
+    /**
+     * Sets the test mode of the request.
+     *
+     * @param boolean $value True for test mode on.
+     * @return AbstractRequest
+     */
+    public function setTestMode($value)
+    {
+        return $this->setParameter('testMode', $value);
+    }
+
+    /**
      * Create a purchase request.
      *
      * @param array $parameters
      *
-     * @return \League\Omnipay\MOLPay\Message\PurchaseRequest
+     * @return \Omnipay\MOLPay\Message\PurchaseRequest
      */
     public function purchase(array $parameters = array())
     {
-        return $this->createRequest('\League\Omnipay\MOLPay\Message\PurchaseRequest', $parameters);
+        return $this->createRequest('\Omnipay\MOLPay\Message\PurchaseRequest', $parameters);
     }
 
     /**
@@ -139,26 +182,47 @@ class Gateway extends AbstractGateway
      *
      * @param array $parameters
      *
-     * @return \League\Omnipay\MOLPay\Message\CompletePurchaseRequest
+     * @return \Omnipay\MOLPay\Message\CompletePurchaseRequest
      */
     public function completePurchase(array $parameters = array())
     {
-        $parsedBody = $this->httpRequest->getParsedBody();
-
         return $this->createRequest(
-            '\League\Omnipay\MOLPay\Message\CompletePurchaseRequest',
+            '\Omnipay\MOLPay\Message\CompletePurchaseRequest',
             array_merge(
                 $parameters,
                 array(
-                    'appCode' => isset($parsedBody['appcode']) ? $parsedBody['appcode'] : null,
-                    'domain' => isset($parsedBody['domain']) ? $parsedBody['domain'] : null,
-                    'errorMessage' => isset($parsedBody['error_desc']) && strlen($parsedBody['error_desc']) > 0 ? $parsedBody['error_desc'] : null,
-                    'payDate' => isset($parsedBody['paydate']) ? $parsedBody['paydate'] : null,
-                    'sKey' => isset($parsedBody['skey']) ? $parsedBody['skey'] : null,
-                    'status' => isset($parsedBody['status']) ? $parsedBody['status'] : null,
-                    'transactionReference' => isset($parsedBody['tranID']) ? $parsedBody['tranID'] : null,
+                    'appCode' => $this->httpRequest->request->get('appcode'),
+                    'domain' => $this->httpRequest->request->get('domain'),
+                    'errorMessage' => strlen($this->httpRequest->request->get('error_desc')) > 0 ? $this->httpRequest->request->get('error_desc') : null,
+                    'payDate' => $this->httpRequest->request->get('paydate'),
+                    'sKey' => $this->httpRequest->request->get('skey'),
+                    'status' => $this->httpRequest->request->get('status'),
+                    'transactionReference' => $this->httpRequest->request->get('tranID'),
+                    'channel' => $this->httpRequest->request->get('channel')
                 )
             )
         );
+    }
+
+    /**
+     * Create a refund request
+     *
+     * @param array $parameters
+     * @return \Omnipay\Common\Message\AbstractRequest
+     */
+    public function refund(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\MOLPay\Message\PartialRefundRequest', $parameters);
+    }
+
+    /**
+     * Create a void request
+     *
+     * @param array $parameters
+     * @return \Omnipay\Common\Message\AbstractRequest
+     */
+    public function void(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\MOLPay\Message\ReversalRequest', $parameters);
     }
 }

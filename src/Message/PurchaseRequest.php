@@ -1,6 +1,6 @@
 <?php
 
-namespace League\Omnipay\MOLPay\Message;
+namespace Omnipay\MOLPay\Message;
 
 /**
  * MOLPay Purchase Request.
@@ -28,20 +28,22 @@ class PurchaseRequest extends AbstractRequest
             $this->validatePaymentMethod();
         }
 
-        $customer = $this->getCard()->getCustomer();
+        $card = $this->getCard();
 
         return array(
-            'amount' => $this->getAmount()->getFormatted(),
+            'amount' => $this->getAmount(),
             'bill_desc' => $this->getDescription(),
-            'bill_email' => $customer->getEmail(),
-            'bill_mobile' => $customer->getPhone(),
-            'bill_name' => $customer->getName(),
+            'bill_email' => $card->getEmail(),
+            'bill_mobile' => $card->getPhone(),
+            'bill_name' => $card->getName(),
             'channel' => $this->getPaymentMethod(),
-            'country' => $customer->getCountry(),
+            'country' => $card->getCountry(),
             'currency' => $this->getCurrency(),
             'langcode' => $this->getLocale(),
             'orderid' => $this->getTransactionId(),
             'vcode' => $this->generateVCode(),
+            'returnurl' => $this->getReturnUrl(),
+            'cancelurl' => $this->getCancelUrl(),
         );
     }
 
@@ -62,6 +64,6 @@ class PurchaseRequest extends AbstractRequest
     {
         $this->validate('amount', 'merchantId', 'transactionId', 'verifyKey');
 
-        return md5($this->getAmount()->getFormatted().$this->getMerchantId().$this->getTransactionId().$this->getVerifyKey());
+        return md5($this->getAmount().$this->getMerchantId().$this->getTransactionId().$this->getVerifyKey());
     }
 }
