@@ -212,14 +212,6 @@ abstract class AbstractRequest extends BaseAbstractRequest
 
     /**
      * Validate payment method:
-     * - Affin Bank
-     * - AmOnline
-     * - CIMB Clicks
-     * - Credit Card
-     * - FPX
-     * - Hong Leong Connect
-     * - Maybank2u
-     * - RHB Now.
      */
     protected function validatePaymentMethod()
     {
