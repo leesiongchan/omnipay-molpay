@@ -20,7 +20,7 @@ class PurchaseResponse extends AbstractResponse implements RedirectResponseInter
      */
     public function getRedirectMethod()
     {
-        return 'GET';
+        return $this->getRequest()->getHttpMethod();
     }
 
     /**
@@ -28,7 +28,10 @@ class PurchaseResponse extends AbstractResponse implements RedirectResponseInter
      */
     public function getRedirectUrl()
     {
-        return $this->getRequest()->getEndpoint().'?'.http_build_query($this->data);
+        if ($this->getRedirectMethod()  == "GET") {
+            return $this->getRequest()->getEndpoint() . '?' . http_build_query($this->data);
+        }
+        return $this->getRequest()->getEndpoint();
     }
 
     /**

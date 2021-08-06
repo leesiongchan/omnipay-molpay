@@ -27,6 +27,7 @@ class Gateway extends AbstractGateway
             'enableIPN' => false,
             'locale' => 'en',
             'testMode' => false,
+            'httpMethod' => 'GET',
         );
     }
 
@@ -78,6 +79,18 @@ class Gateway extends AbstractGateway
         return $this->setParameter('locale', $value);
     }
 
+    /**
+     * Set the HTTP Method.
+     *
+     *
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function setHttpMethod($value)
+    {
+        return $this->setParameter('httpMethod', $value);
+    }
     /**
      * Get merchantId.
      *

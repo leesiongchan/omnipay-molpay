@@ -77,6 +77,29 @@ abstract class AbstractRequest extends BaseAbstractRequest
         return $this->setParameter('locale', $value);
     }
 
+
+    /**
+     * Get HTTP Method.
+     *
+     * @return string
+     */
+    public function getHttpMethod()
+    {
+        return $this->getParameter('httpMethod');
+    }
+
+    /**
+     * Set HTTP Method.
+     *
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function setHttpMethod($value)
+    {
+        return $this->setParameter('httpMethod', $value);
+    }
+
     /**
      * Get merchantId.
      *
@@ -220,7 +243,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
         $methods = PaymentMethod::supported();
         $supported = false;
         foreach ($methods as $method) {
-            if ($paymentMethod == strtolower($method) ) {
+            if ($paymentMethod == strtolower($method)) {
                 $supported = true;
             }
         }
