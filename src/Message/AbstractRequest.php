@@ -173,7 +173,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
     {
         $this->validate('merchantId');
 
-        return ($this->getTestMode() ? $this->sandboxEndpoint : $this->endpoint).$this->getMerchantId().'/';
+        return ($this->getTestMode() ? $this->sandboxEndpoint : $this->endpoint) . $this->getMerchantId() . '/';
     }
 
     /**
@@ -184,7 +184,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
         $data = $this->httpRequest->request->all();
 
         $data['treq'] = 1; // Additional parameter required by IPN
-    
+
         $this->httpClient->request('POST', $this->IPNEndpoint, array(), http_build_query($data));
     }
 
@@ -202,7 +202,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
         $card = $this->getCard();
 
         foreach (array('country', 'email', 'name', 'phone') as $key) {
-            $method = 'get'.ucfirst(Helper::camelCase($key));
+            $method = 'get' . ucfirst(Helper::camelCase($key));
 
             if (null === $card->$method()) {
                 throw new InvalidCreditCardDetailsException("The $key parameter is required");
@@ -224,19 +224,15 @@ abstract class AbstractRequest extends BaseAbstractRequest
     protected function validatePaymentMethod()
     {
         $this->validate('paymentMethod');
-
         $paymentMethod = strtolower($this->getPaymentMethod());
-
-        if (
-            PaymentMethod::AFFIN_BANK !== $paymentMethod &&
-            PaymentMethod::AM_ONLINE !== $paymentMethod &&
-            PaymentMethod::CIMB_CLICKS !== $paymentMethod &&
-            PaymentMethod::CREDIT_CARD !== $paymentMethod &&
-            PaymentMethod::FPX !== $paymentMethod &&
-            PaymentMethod::HONG_LEONG_CONNECT !== $paymentMethod &&
-            PaymentMethod::MAYBANK2U !== $paymentMethod &&
-            PaymentMethod::RHB_NOW !== $paymentMethod
-        ) {
+        $methods = PaymentMethod::supported();
+        $supported = false;
+        foreach ($methods as $method) {
+            if ($paymentMethod == strtolower($method) ) {
+                $supported = true;
+            }
+        }
+        if (!$supported) {
             throw new InvalidPaymentMethodException("The payment method ($paymentMethod) is not supported");
         }
     }
