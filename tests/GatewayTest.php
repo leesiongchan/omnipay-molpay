@@ -1,15 +1,14 @@
 <?php
 
-namespace League\Omnipay\MOLPay;
+namespace Omnipay\MOLPay;
 
-use League\Omnipay\Common\CreditCard;
-use League\Omnipay\Common\Customer;
-use League\Omnipay\Tests\GatewayTestCase;
+use Omnipay\Common\CreditCard;
+use Omnipay\Tests\GatewayTestCase;
 
 class GatewayTest extends GatewayTestCase
 {
     /**
-     * @var \League\Omnipay\MOLPay\Gateway
+     * @var \Omnipay\MOLPay\Gateway
      */
     protected $gateway;
 
@@ -17,17 +16,22 @@ class GatewayTest extends GatewayTestCase
     {
         parent::setUp();
 
-        $this->mockGateway($this->getHttpRequest());
+        $this->gateway = new Gateway($this->getHttpClient(), $this->getHttpRequest());
+
+        $this->gateway->setTestMode(false);
+        $this->gateway->setCurrency('MYR');
+        $this->gateway->setLocale('en');
+        $this->gateway->setMerchantId('test1234');
+        $this->gateway->setVerifyKey('abcdefg');
+        $this->gateway->setSecretKey('hilkjmn');
 
         $this->options = array(
-            'amount' => 1000, // In cents form (eg. 1000 cents = $10.00)
+            'amount' => '10.00',
             'card' => new CreditCard(array(
-                'customer' => new Customer(array(
-                    'country' => 'MY',
-                    'email' => 'abc@example.com',
-                    'name' => 'Lee Siong Chan',
-                    'phone' => '0123456789',
-                )),
+                'country' => 'MY',
+                'email' => 'abc@example.com',
+                'name' => 'Lee Siong Chan',
+                'phone' => '0123456789',
             )),
             'description' => 'Test Payment',
             'transactionId' => '20160331082207680000',
@@ -50,16 +54,14 @@ class GatewayTest extends GatewayTestCase
 
     public function testCompletePurchaseSuccess()
     {
-        $request = $this->getHttpRequest()->withParsedBody(array(
+        $this->getHttpRequest()->request->replace(array(
             'appcode' => 'abcdefg',
             'domain' => 'test4321',
             'paydate' => '2016-03-29 04:02:21',
-            'skey' => '9b8be764cc5bad1b4a5d58a3ba4daf58',
+            'skey' => '0be898400610105af17b3a462c44241b',
             'status' => '00',
             'tranID' => '000001',
         ));
-
-        $this->mockGateway($request);
 
         $response = $this->gateway->completePurchase($this->options)->send();
 
@@ -68,11 +70,11 @@ class GatewayTest extends GatewayTestCase
     }
 
     /**
-     * @expectedException \League\Omnipay\Common\Exception\InvalidResponseException
+     * @expectedException \Omnipay\Common\Exception\InvalidResponseException
      */
     public function testCompletePurchaseInvalidSKey()
     {
-        $request = $this->getHttpRequest()->withParsedBody(array(
+        $this->getHttpRequest()->request->replace(array(
             'appcode' => 'abcdefg',
             'domain' => 'test4321',
             'paydate' => '2016-03-29 04:02:21',
@@ -81,17 +83,15 @@ class GatewayTest extends GatewayTestCase
             'tranID' => '000001',
         ));
 
-        $this->mockGateway($request);
-
         $response = $this->gateway->completePurchase($this->options)->send();
     }
 
     /**
-     * @expectedException \League\Omnipay\Common\Exception\InvalidResponseException
+     * @expectedException \Omnipay\Common\Exception\InvalidResponseException
      */
     public function testCompletePurchaseError()
     {
-        $request = $this->getHttpRequest()->withParsedBody(array(
+        $this->getHttpRequest()->request->replace(array(
             'appcode' => 'abcdefg',
             'domain' => 'test4321',
             'paydate' => 'I am not a date',
@@ -101,8 +101,6 @@ class GatewayTest extends GatewayTestCase
             'tranID' => '000001',
         ));
 
-        $this->mockGateway($request);
-
         $response = $this->gateway->completePurchase($this->options)->send();
         $this->assertFalse($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
@@ -110,13 +108,42 @@ class GatewayTest extends GatewayTestCase
         $this->assertEquals('Invalid date', $response->getMessage());
     }
 
-    private function mockGateway($request)
+    public function testVoid()
     {
-        $this->gateway = new Gateway($this->getHttpClient(), $request);
+        $request = $this->gateway->void(array(
+            'transactionReference' => '25248208'
+        ));
 
-        $this->gateway->setCurrency('MYR');
-        $this->gateway->setLocale('en');
-        $this->gateway->setMerchantId('test1234');
-        $this->gateway->setVerifyKey('abcdefg');
+        $this->assertInstanceOf('\Omnipay\MOLPay\Message\ReversalRequest', $request);
+        $this->assertSame('25248208', $request->getTransactionReference());
+        $endPoint = $request->getEndpoint();
+        $this->assertSame('https://api.molpay.com/MOLPay/API/refundAPI/refundAPI/refund.php', $endPoint);
+        $data = $request->getData();
+        $this->assertNotEmpty($data);
     }
+
+    // public function testRefund()
+    // {
+    //     $request = $this->gateway->refund(array(
+    //         'transactionReference'  => '25248208',
+    //         'refId'                 => 'merchant_refund_ref_id',
+    //         'amount'                => '10.00',
+    //         'bankCode'              => 'MBBEMYKL',
+    //         'beneficiaryName'       => 'beneficiary_name',
+    //         'beneficiaryAccountNo'  => 'beneficiary_account_no',
+    //     ));
+
+    //     $this->assertInstanceOf('\Omnipay\MOLPay\Message\PartialRefundRequest', $request);
+    //     $this->assertSame('25248208', $request->getTransactionReference());
+    //     $this->assertSame('merchant_refund_ref_id', $request->getRefId());
+    //     $this->assertSame('10.00', $request->getAmount());
+    //     $this->assertSame('MBBEMYKL', $request->getBankCode());
+    //     $this->assertSame('beneficiary_name', $request->getBeneficiaryName());
+    //     $this->assertSame('beneficiary_account_no', $request->getBeneficiaryAccountNo());
+
+    //     $endPoint = $request->getEndpoint();
+    //     $this->assertSame('https://api.molpay.com/MOLPay/API/refundAPI/index.php', $endPoint);
+    //     $data = $request->getData();
+    //     $this->assertNotEmpty($data);
+    // }
 }

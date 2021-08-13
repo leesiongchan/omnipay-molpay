@@ -1,8 +1,8 @@
 <?php
 
-namespace League\Omnipay\MOLPay\Message;
+namespace Omnipay\MOLPay\Message;
 
-use League\Omnipay\Tests\TestCase;
+use Omnipay\Tests\TestCase;
 
 class CompletePurchaseRequestTest extends TestCase
 {
@@ -11,16 +11,17 @@ class CompletePurchaseRequestTest extends TestCase
         $this->request = new CompletePurchaseRequest($this->getHttpClient(), $this->getHttpRequest());
 
         $this->request->initialize(array(
-            'amount' => 1000,
+            'amount' => '10.00',
             'appCode' => 'abcdefg',
             'currency' => 'MYR',
             'domain' => 'test4321',
             'payDate' => '2016-03-29 04:02:21',
-            'sKey' => '9b8be764cc5bad1b4a5d58a3ba4daf58',
+            'sKey' => '2e684713b97a79721e347492ef75765e',
             'status' => '00',
             'transactionId' => '20160331082207680000',
             'transactionReference' => '000001',
             'verifyKey' => 'abcdefg',
+            'secretKey' => 'hilklmn',
         ));
     }
 
@@ -35,7 +36,7 @@ class CompletePurchaseRequestTest extends TestCase
     public function testSendSuccess()
     {
         $this->request->setStatus('00');
-        $this->request->setSKey('9b8be764cc5bad1b4a5d58a3ba4daf58');
+        $this->request->setSKey('2e684713b97a79721e347492ef75765e');
 
         $response = $this->request->send();
 
@@ -49,7 +50,7 @@ class CompletePurchaseRequestTest extends TestCase
     public function testSendPending()
     {
         $this->request->setStatus('22');
-        $this->request->setSKey('9d65ed0b785fea1c8fc80b8316555ee3');
+        $this->request->setSKey('7f5b456722717f87ae37810d641742cb');
 
         $response = $this->request->send();
 

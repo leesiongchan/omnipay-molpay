@@ -1,0 +1,17 @@
+HTTP/1.1 200 OK
+Date: Sun, 28 Jan 2018 11:21:38 GMT
+Server: Apache
+Content-Length: 119
+Connection: close
+Content-Type: application/json
+
+{
+    "RefundType": "P",
+    "MerchantID": "your_merchant_id",
+    "RefID": "merchant_refund_ref_id",
+    "RefundID": 19,
+    "TxnID": 25248208,
+    "Amount": "10.00",
+    "Status": "pending",
+    "Signature": "816071a1a72a260b87d7570beb0a670a"
+}

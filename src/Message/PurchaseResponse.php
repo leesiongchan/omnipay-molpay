@@ -1,9 +1,9 @@
 <?php
 
-namespace League\Omnipay\MOLPay\Message;
+namespace Omnipay\MOLPay\Message;
 
-use League\Omnipay\Common\Message\AbstractResponse;
-use League\Omnipay\Common\Message\RedirectResponseInterface;
+use Omnipay\Common\Message\AbstractResponse;
+use Omnipay\Common\Message\RedirectResponseInterface;
 
 class PurchaseResponse extends AbstractResponse implements RedirectResponseInterface
 {
@@ -12,7 +12,7 @@ class PurchaseResponse extends AbstractResponse implements RedirectResponseInter
      */
     public function getRedirectData()
     {
-        return;
+        return $this->data;
     }
 
     /**
@@ -20,7 +20,7 @@ class PurchaseResponse extends AbstractResponse implements RedirectResponseInter
      */
     public function getRedirectMethod()
     {
-        return 'GET';
+        return $this->getRequest()->getHttpMethod();
     }
 
     /**
@@ -28,7 +28,10 @@ class PurchaseResponse extends AbstractResponse implements RedirectResponseInter
      */
     public function getRedirectUrl()
     {
-        return $this->getRequest()->getEndpoint().'?'.http_build_query($this->data);
+        if ($this->getRedirectMethod()  == "GET") {
+            return $this->getRequest()->getEndpoint() . '?' . http_build_query($this->data);
+        }
+        return $this->getRequest()->getEndpoint();
     }
 
     /**

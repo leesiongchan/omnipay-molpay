@@ -1,8 +1,8 @@
 <?php
 
-namespace League\Omnipay\MOLPay\Exception;
+namespace Omnipay\MOLPay\Exception;
 
-use League\Omnipay\Common\Exception\OmnipayException;
+use Omnipay\Common\Exception\OmnipayException;
 
 /**
  * Invalid Payment Method Exception.
